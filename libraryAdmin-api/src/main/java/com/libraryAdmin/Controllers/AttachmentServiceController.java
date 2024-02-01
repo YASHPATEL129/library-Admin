@@ -26,7 +26,6 @@ public class AttachmentServiceController {
                                                  HttpServletResponse response) {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessage(Message.SUCCESS);
         success.setData(attachmentService.uploadFile(attachmentTypes, file, request, response));
         success.setMessageCode(Message.GET_SUCCESSFUL);
         return respBuilder.body(success);
@@ -38,7 +37,6 @@ public class AttachmentServiceController {
                                                   @RequestParam("File") MultipartFile file) {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessage(Message.SUCCESS);
         success.setMessageCode(Message.GET_SUCCESSFUL);
         success.setData(attachmentService.updateFile(newFilename, file));
         return respBuilder.body(success);

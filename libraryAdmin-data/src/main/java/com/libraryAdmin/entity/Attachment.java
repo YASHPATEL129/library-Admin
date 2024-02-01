@@ -37,4 +37,6 @@ public class Attachment {
 
     @Enumerated(EnumType.STRING)
     private AttachmentTypes fileTypes;
+
+
 }

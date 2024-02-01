@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class InvalidCredentialsException extends RuntimeException {
 
     String error;
+    Object[] args;
 
     public InvalidCredentialsException(){
     }
@@ -20,5 +21,11 @@ public class InvalidCredentialsException extends RuntimeException {
     public InvalidCredentialsException(String message, String error){
         super(message);
         this.error = error;
+    }
+
+    public InvalidCredentialsException(String message, String error, Object[] args){
+        super(message);
+        this.error = error;
+        this.args = args;
     }
 }

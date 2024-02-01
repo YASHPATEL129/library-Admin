@@ -8,9 +8,11 @@ import com.libraryAdmin.entity.Book;
 import com.libraryAdmin.entity.Category;
 import com.libraryAdmin.exception.InvalidCredentialsException;
 import com.libraryAdmin.exception.NotFoundException;
+import com.libraryAdmin.model.params.BookUpdateParam;
 import com.libraryAdmin.model.params.UploadBookParam;
 import com.libraryAdmin.pojo.CurrentSession;
 import com.libraryAdmin.pojo.response.BookResponse;
+import com.libraryAdmin.pojo.response.BookUpdateResponse;
 import com.libraryAdmin.pojo.response.UploadBookResponse;
 import com.libraryAdmin.repository.AdminImageRepository;
 import com.libraryAdmin.repository.AttachmentRepository;
@@ -22,6 +24,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -131,6 +135,120 @@ public class BookServiceImpl implements BookService {
            }
         return response;
         }else {
+            throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void deleteBook(Long id) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+
+            if (book.getIsDeleted() == true) {
+                throw new InvalidCredentialsException(Message.IS_ALREADY_DELETED, ErrorKeys.IS_ALREADY_DELETED,new Object[]{id});
+            }
+            // Set the boolean field isDeleted to true
+            book.setIsDeleted(true);
+            book.setDeletedDate(LocalDateTime.now());
+            bookRepository.save(book);
+
+        } else {
+            throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
+        }
+
+    }
+
+    @Override
+    public void restoreBook(Long id) {
+        Optional<Book> optionalEntity = bookRepository.findById(id);
+        if (optionalEntity.isPresent()) {
+            Book book = optionalEntity.get();
+            book.setIsDeleted(false);
+            book.setDeletedDate(null);
+            bookRepository.save(book);
+        }
+    }
+
+    @Override
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
+    }
+
+    @Override
+    public BookUpdateResponse updateBook(Long id, BookUpdateParam param) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+
+            // Update the book fields from the requestDTO if available
+            if (param != null) {
+                if (param.getTitle() != null) {
+                    book.setTitle(param.getTitle());
+                }
+                if (param.getDescription() != null) {
+                    book.setDescription(param.getDescription());
+                }
+                if (param.getIsbn() != null) {
+                    book.setIsbn(param.getIsbn());
+                }
+                if (param.getPublisher() != null) {
+                    book.setPublisher(param.getPublisher());
+                }
+                if (param.getAuthor() != null) {
+                    book.setAuthor(param.getAuthor());
+                }
+                if (param.getCategory() != null) {
+                    Optional<Category> optionalCategory = Optional.ofNullable(categoryRepository.findByCategoryName(param.getCategory()));
+                    if (optionalCategory.isPresent()) {
+                        book.setCategory(optionalCategory.get().getId());
+                    } else {
+                        // Handle if category name is not found
+                        throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
+                    }
+                }
+                if (param.getPages() != null) {
+                    book.setPages(param.getPages());
+                }
+            }
+
+            book.setModifiedBy(currentSession.getUserName());
+
+            // Save the updated book
+            bookRepository.save(book);
+
+            BookUpdateResponse response = new BookUpdateResponse();
+            response.setId(id);
+            response.setTitle(book.getTitle());
+            response.setDescription(book.getDescription());
+            response.setIsbn(book.getIsbn());
+            response.setPublisher(book.getPublisher());
+            response.setAuthor(book.getAuthor());
+            response.setCategory(book.getCategory());
+            response.setPages(book.getPages());
+
+
+
+
+            // Find the AdminImage and Attachment based on the book's bind_id
+            AdminImage adminImage = adminImageRepository.findAdminImageByBindId(book.getBookId());
+            Attachment attachment = attachmentRepository.findAttachmentByBindId(book.getBookId());
+
+            if (attachment != null) {
+                response.setAttachmentNewFilename(attachment.getNewFilename());
+            } else {
+                response.setAttachmentNewFilename(null);
+            }
+
+
+            if (adminImage != null) {
+                response.setAdminImageNewImageName(adminImage.getNewImageName());
+            } else {
+                response.setAdminImageNewImageName(null);
+            }
+        return response;
+
+    }else {
             throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
         }
     }

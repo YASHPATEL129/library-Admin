@@ -1,7 +1,6 @@
 package com.libraryAdmin.Controllers;
 
 
-import com.libraryAdmin.consts.Message;
 import com.libraryAdmin.exception.ValidationException;
 import com.libraryAdmin.model.params.SendEmailCodeParam;
 import com.libraryAdmin.pojo.response.Success;
@@ -37,7 +36,6 @@ public class VerificationCodeController {
         }
         verificationCodeService.sendCode(param, request);
         Success<?> s = new Success<>();
-        s.setMessage(SEND_SUCCESSFUL);
         s.setMessageCode(SEND_SUCCESSFUL);
         return ResponseEntity.status(HttpStatus.OK).body(s);
     }

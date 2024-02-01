@@ -33,7 +33,11 @@ public class BeanConfig {
                 "v1/upload-file",
                 "/v1/updates-file/{newFilename}",
                 "/v1/all/category",
-                "/v1/book/{id}"
+                "/v1/book/{id}",
+                "/v1/isDeleted/{id}",
+                "/v1/restore/{id}",
+                "/v1/all/books",
+                "/v1/delete/category/{id}"
         );
     }
 

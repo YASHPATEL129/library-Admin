@@ -42,4 +42,9 @@ public interface Message {
     String IMAGE_NOT_FOUND = "image.not.found";
 
     String NOT_FOUND = "not.found";
+
+    String IS_ALREADY_DELETED = "is.already.deleted";
+
+    String CATEGORY_ID_ASSOCIATED_WITH_BOOK = "category.id.associated.with.book";
+    String IS_ALREADY_EXIST = "is.already.exists";
 }

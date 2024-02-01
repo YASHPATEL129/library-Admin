@@ -4,6 +4,7 @@ import com.libraryAdmin.consts.Message;
 import com.libraryAdmin.entity.Category;
 import com.libraryAdmin.exception.ValidationException;
 import com.libraryAdmin.model.params.CreateCategoryParam;
+import com.libraryAdmin.model.params.UpdateCategoryParam;
 import com.libraryAdmin.pojo.response.Success;
 import com.libraryAdmin.service.CategoryService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,7 +40,7 @@ public class CategoryServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(data);
-        success.setMessage(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.GET_SUCCESSFUL);
         return respBuilder.body(success);
        }
 
@@ -49,7 +50,25 @@ public class CategoryServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(categories);
-        success.setMessage(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.GET_SUCCESSFUL);
+        return respBuilder.body(success);
+    }
+
+    @DeleteMapping("/delete/category/{id}")
+    public ResponseEntity<Success<?>> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
+        Success<?> success = new Success<>();
+        success.setMessageCode(Message.GET_SUCCESSFUL);
+        return respBuilder.body(success);
+    }
+
+    @PutMapping("/update/category/{id}")
+    public ResponseEntity<Success<?>> updateCategory(@PathVariable Long id, @RequestBody UpdateCategoryParam param){
+        categoryService.updateCategory(id, param);
+        ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
+        Success<?> success = new Success<>();
+        success.setMessageCode(Message.GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
 }

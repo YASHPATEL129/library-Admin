@@ -25,7 +25,6 @@ public class ImageServiceController {
                                                   HttpServletResponse response) {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessage(Message.SUCCESS);
         success.setData(imageService.uploadImage(imageType, file, request, response));
         success.setMessageCode(Message.GET_SUCCESSFUL);
         return respBuilder.body(success);
@@ -38,7 +37,6 @@ public class ImageServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         imageService.downloadImage(newImageName, request, response);
         Success<?> success = new Success<>();
-        success.setMessage(Message.SUCCESS);
         success.setMessageCode(Message.GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
@@ -48,7 +46,6 @@ public class ImageServiceController {
                                                   @RequestParam("file") MultipartFile file) {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessage(Message.SUCCESS);
         success.setMessageCode(Message.GET_SUCCESSFUL);
         success.setData(imageService.updateImage(newImageName, file));
         return respBuilder.body(success);

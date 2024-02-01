@@ -36,9 +36,8 @@ public class AccountAndServiceController {
         }
 
         accountAndService.signUp(signUpParam, request, response);
-
         Success<?> success = new Success<>();
-        success.setMessage(Message.SUCCESS);
+        success.setMessageCode(Message.SUCCESS);
 
         ResponseEntity<Success<?>> responseEntity = new ResponseEntity<>(success, HttpStatus.CREATED);
         return responseEntity;
@@ -50,7 +49,7 @@ public class AccountAndServiceController {
                                              HttpServletResponse response) {
         Object data = accountAndService.signIn(signInParam, request, response);
         Success<?> success = new Success<>();
-        success.setMessage(Message.SUCCESS);
+        success.setMessageCode(Message.SUCCESS);
         success.setData(data);
         ResponseEntity<Success<?>> responseEntity = new ResponseEntity<>(success, HttpStatus.OK);
         return responseEntity;
@@ -60,7 +59,6 @@ public class AccountAndServiceController {
     public ResponseEntity<Success<?>> getAccountInfo(HttpServletRequest request, HttpServletResponse response) {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessage(Message.SUCCESS);
         success.setData(accountAndService.getAccountInfo(request));
         success.setMessageCode(Message.GET_SUCCESSFUL);
         return respBuilder.body(success);
@@ -76,7 +74,6 @@ public class AccountAndServiceController {
         accountAndService.changePassword(changePasswordParam, request, response);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> resp = new Success<>();
-        resp.setMessage(Message.PASSWORD_CHANGE_SUCCESSFUL);
         resp.setMessageCode(Message.PASSWORD_CHANGE_SUCCESSFUL);
         return respBuilder.body(resp);
     }
@@ -87,7 +84,7 @@ public class AccountAndServiceController {
         Object data =  accountAndService.changeInfo(changeInfoParam, request , response);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> resp = new Success<>();
-        resp.setMessage(Message.GET_SUCCESSFUL);
+        resp.setMessageCode(Message.GET_SUCCESSFUL);
         resp.setData(data);
         return respBuilder.body(resp);
     }
@@ -103,7 +100,6 @@ public class AccountAndServiceController {
         accountAndService.resetPassword(resetPasswordParam, request ,response);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> resp = new Success<>();
-        resp.setMessage(PASSWORD_RESET_SUCCESSFUL);
         resp.setMessageCode(PASSWORD_RESET_SUCCESSFUL);
         return respBuilder.body(resp);
     }
@@ -120,7 +116,6 @@ public class AccountAndServiceController {
         accountAndService.superAdminChangePassword(param, request);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> resp = new Success<>();
-        resp.setMessage(PASSWORD_RESET_SUCCESSFUL);
         resp.setMessageCode(PASSWORD_RESET_SUCCESSFUL);
         return respBuilder.body(resp);
     }
