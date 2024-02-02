@@ -37,7 +37,8 @@ public class BeanConfig {
                 "/v1/isDeleted/{id}",
                 "/v1/restore/{id}",
                 "/v1/all/books",
-                "/v1/delete/category/{id}"
+                "/v1/delete/category/{id}",
+                "/v1/attachment/{newFilename}"
         );
     }
 
@@ -83,9 +84,7 @@ public class BeanConfig {
 
     @Bean("allowedFileType")
     public List<String> allowedFileType() {
-        return Stream.of( "application/pdf",
-                "application/msword",
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        return Stream.of( "application/pdf"
         ).collect(Collectors.toList());
     }
 }

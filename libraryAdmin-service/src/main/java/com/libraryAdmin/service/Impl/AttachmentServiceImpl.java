@@ -1,9 +1,13 @@
 package com.libraryAdmin.service.Impl;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.model.OSSObject;
 import com.libraryAdmin.consts.ErrorKeys;
 import com.libraryAdmin.consts.Message;
 import com.libraryAdmin.entity.Attachment;
 import com.libraryAdmin.enums.AttachmentTypes;
+import com.libraryAdmin.exception.InvalidCredentialsException;
+import com.libraryAdmin.exception.NotFoundException;
 import com.libraryAdmin.exception.ValidationException;
 import com.libraryAdmin.helper.SystemHelper;
 import com.libraryAdmin.pojo.CurrentSession;
@@ -13,16 +17,25 @@ import com.libraryAdmin.service.AttachmentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpHeaders;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
@@ -103,5 +116,43 @@ public class AttachmentServiceImpl implements AttachmentService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void downloadFile(String newFilename, HttpServletResponse response) {
+
+
+    }
+
+    @Override
+    public void getPdfData(String newFilename , HttpServletRequest request, HttpServletResponse response){
+        Attachment attachment = attachmentRepository.findByNewFilename(newFilename);
+        if (attachment == null) {
+            throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
+        }
+        String originalFilename = attachment.getOriginalFilename();
+        Path filePath = Paths.get(UPLOAD_DIR + File.separator + newFilename);
+        Resource resource = new FileSystemResource(filePath);
+        if (!resource.exists()) {
+            throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
+        }
+
+        String contentType = "application/octet-stream";
+        try (InputStream fis = resource.getInputStream();
+             OutputStream fos = response.getOutputStream();) {
+
+            String extension = FilenameUtils.getExtension(originalFilename);
+            response.setContentType(MediaType.APPLICATION_PDF_VALUE);
+
+
+//            response.setContentLength(Math.toIntExact(fileSize));
+            response.setHeader("Content-disposition", "inline;filename=" + new String(originalFilename.getBytes(StandardCharsets.UTF_8), "ISO-8859-1"));
+            IOUtils.copy(fis, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+//            throw new RecordNotFoundException(MessageKeys.NOT_FOUND, ErrorKeys.NOT_FOUND);
+        }
+    }
+
+
 }
 

@@ -10,4 +10,5 @@ public interface AttachmentRepository extends JpaRepository<Attachment , Long> {
     Attachment findByNewFilename(String newFilename);
 
     Attachment findAttachmentByBindId(Long bookId);
+
 }
