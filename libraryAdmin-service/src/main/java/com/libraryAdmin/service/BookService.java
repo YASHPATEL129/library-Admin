@@ -22,4 +22,6 @@ public interface BookService {
     List<Book> getAllBooks();
 
     BookUpdateResponse updateBook(Long id , BookUpdateParam param);
+
+    List<Book> getSameBooks();
 }

@@ -89,4 +89,14 @@ public class BookServiceController {
     }
 
 
+    @GetMapping("/all/12/books")
+    public ResponseEntity<Success<?>> getSameBook() {
+        List<Book> books = bookService.getSameBooks();
+        ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
+        Success<?> success = new Success<>();
+        success.setData(books);
+        success.setMessageCode(Message.GET_SUCCESSFUL);
+        return respBuilder.body(success);
+    }
+
 }

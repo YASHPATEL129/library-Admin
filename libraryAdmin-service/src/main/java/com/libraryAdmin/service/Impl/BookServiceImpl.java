@@ -252,4 +252,11 @@ public class BookServiceImpl implements BookService {
             throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
         }
     }
+
+    @Override
+    public List<Book> getSameBooks() {
+        List<Book> allBooks = bookRepository.findAll();
+        int endIndex = Math.min(allBooks.size(), 12); // Ensure endIndex doesn't exceed the list size
+        return allBooks.subList(0, endIndex);
+    }
 }

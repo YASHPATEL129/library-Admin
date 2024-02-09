@@ -38,7 +38,8 @@ public class BeanConfig {
                 "/v1/restore/{id}",
                 "/v1/all/books",
                 "/v1/delete/category/{id}",
-                "/v1/attachment/{newFilename}"
+                "/v1/attachment/{newFilename}",
+                "/v1/all/12/books"
         );
     }
 
