@@ -4,8 +4,10 @@ import com.libraryAdmin.consts.Message;
 import com.libraryAdmin.entity.Book;
 import com.libraryAdmin.entity.Category;
 import com.libraryAdmin.exception.ValidationException;
+import com.libraryAdmin.interfaceProjections.BookProjection;
 import com.libraryAdmin.model.params.BookUpdateParam;
 import com.libraryAdmin.model.params.UploadBookParam;
+import com.libraryAdmin.pojo.response.BookResponse;
 import com.libraryAdmin.pojo.response.BookUpdateResponse;
 import com.libraryAdmin.pojo.response.Success;
 import com.libraryAdmin.service.BookService;
@@ -71,7 +73,7 @@ public class BookServiceController {
 
     @GetMapping("/all/books")
     public ResponseEntity<Success<?>> getAllBook() {
-        List<Book> books = bookService.getAllBooks();
+        List<BookProjection> books = bookService.getAllBooks();
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(books);
@@ -91,7 +93,8 @@ public class BookServiceController {
 
     @GetMapping("/all/12/books")
     public ResponseEntity<Success<?>> getSameBook() {
-        List<Book> books = bookService.getSameBooks();
+
+        List<BookProjection> books = bookService.getSameBooks();
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(books);
@@ -99,4 +102,16 @@ public class BookServiceController {
         return respBuilder.body(success);
     }
 
+
+    @GetMapping("/search/books")
+    public ResponseEntity<Success<?>> searchBook( @RequestParam(name = "query", required = false) String query,
+                                                  @RequestParam(name = "categoryIds", required = false) String categoryIds) {
+
+        List<BookProjection> books = bookService.searchBook(query, categoryIds);
+        ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
+        Success<?> success = new Success<>();
+        success.setData(books);
+        success.setMessageCode(Message.GET_SUCCESSFUL);
+        return respBuilder.body(success);
+    }
 }

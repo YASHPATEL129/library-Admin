@@ -8,6 +8,7 @@ import com.libraryAdmin.entity.Book;
 import com.libraryAdmin.entity.Category;
 import com.libraryAdmin.exception.InvalidCredentialsException;
 import com.libraryAdmin.exception.NotFoundException;
+import com.libraryAdmin.interfaceProjections.BookProjection;
 import com.libraryAdmin.model.params.BookUpdateParam;
 import com.libraryAdmin.model.params.UploadBookParam;
 import com.libraryAdmin.pojo.CurrentSession;
@@ -19,14 +20,17 @@ import com.libraryAdmin.repository.AttachmentRepository;
 import com.libraryAdmin.repository.BookRepository;
 import com.libraryAdmin.repository.CategoryRepository;
 import com.libraryAdmin.service.BookService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -171,8 +175,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public List<BookProjection> getAllBooks() {
+        return bookRepository.findAllBook();
     }
 
     @Override
@@ -254,9 +258,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getSameBooks() {
-        List<Book> allBooks = bookRepository.findAll();
-        int endIndex = Math.min(allBooks.size(), 12); // Ensure endIndex doesn't exceed the list size
-        return allBooks.subList(0, endIndex);
+    public List<BookProjection> getSameBooks() {
+        return bookRepository.findBookDetailsWithImageAndFile();
+    }
+
+    @Override
+    public List<BookProjection> searchBook(String query, String categoryIds) {
+                return bookRepository.searchBooks(query, categoryIds);
     }
 }
