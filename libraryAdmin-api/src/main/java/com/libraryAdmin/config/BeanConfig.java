@@ -40,7 +40,8 @@ public class BeanConfig {
                 "/v1/delete/category/{id}",
                 "/v1/attachment/{newFilename}",
                 "/v1/all/12/books",
-                "/v1/search/books"
+                "/v1/search/books",
+                "/v1/multiple/upload"
         );
     }
 

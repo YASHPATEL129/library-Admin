@@ -23,4 +23,6 @@ public class UploadBookParam {
 
     private String newFilename;
 
+    private Boolean isPrime;
+
 }

@@ -8,6 +8,7 @@ import com.libraryAdmin.entity.Book;
 import com.libraryAdmin.entity.Category;
 import com.libraryAdmin.exception.InvalidCredentialsException;
 import com.libraryAdmin.exception.NotFoundException;
+import com.libraryAdmin.interfaceProjections.BookByIdProjection;
 import com.libraryAdmin.interfaceProjections.BookProjection;
 import com.libraryAdmin.model.params.BookUpdateParam;
 import com.libraryAdmin.model.params.UploadBookParam;
@@ -77,6 +78,7 @@ public class BookServiceImpl implements BookService {
         book.setAuthor(param.getAuthor());
         book.setCategory(category.getId()); // Set the category ID in the book entity
         book.setCreatedBy(currentSession.getUserName());
+        book.setIsPrime(param.getIsPrime());
         // Save the book entity
         bookRepository.save(book);
 
@@ -99,6 +101,7 @@ public class BookServiceImpl implements BookService {
         response.setCategory(category.getId());
         response.setPages(book.getPages());
         response.setCreatedBy(book.getCreatedBy());
+        response.setIsPrime(book.getIsPrime());
         response.setIsPrime(book.getIsPrime());
         return response;
     }
@@ -124,20 +127,20 @@ public class BookServiceImpl implements BookService {
             response.setIsDeleted(book.getIsDeleted());
             response.setDeletedDate(book.getDeletedDate());
             response.setPages(book.getPages());
-
+            response.setIsPrime(book.getIsPrime());
 
             // Find the AdminImage and Attachment based on the book's bind_id
             AdminImage adminImage = adminImageRepository.findAdminImageByBindId(book.getBookId());
             Attachment attachment = attachmentRepository.findAttachmentByBindId(book.getBookId());
-           try {
-               if (adminImage != null && attachment != null){
-                   response.setCover(adminImage.getNewImageName());
-                   response.setFile(attachment.getNewFilename());
-               }
-           }catch (Exception e){
-               throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
-           }
-        return response;
+            try {
+                if (adminImage != null && attachment != null){
+                    response.setCover(adminImage.getNewImageName());
+                    response.setFile(attachment.getNewFilename());
+                }
+            }catch (Exception e){
+                throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
+            }
+            return response;
         }else {
             throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
         }

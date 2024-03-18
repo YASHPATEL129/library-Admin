@@ -46,5 +46,5 @@ public class Book {
 
     private LocalDateTime deletedDate;
 
-    private Boolean isPrime = false;
+    private Boolean isPrime;
 }

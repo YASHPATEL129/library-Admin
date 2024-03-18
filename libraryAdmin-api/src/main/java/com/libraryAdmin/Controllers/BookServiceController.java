@@ -105,8 +105,8 @@ public class BookServiceController {
 
     @GetMapping("/search/books")
     public ResponseEntity<Success<?>> searchBook( @RequestParam(name = "query", required = false) String query,
-                                                  @RequestParam(name = "categoryIds", required = false) String categoryIds) {
-
+                                                      @RequestParam(name = "categoryIds", required = false) String categoryIds) {
+        categoryIds = ("0".equals(categoryIds)) ? null : categoryIds;
         List<BookProjection> books = bookService.searchBook(query, categoryIds);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();

@@ -1,15 +1,13 @@
 package com.libraryAdmin.interfaceProjections;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.libraryAdmin.entity.Book;
 import org.springframework.data.rest.core.config.Projection;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Projection(name = "books", types = { Book.class })
-public interface BookProjection {
+public interface BookByIdProjection {
 
 
     Long getBookId();
@@ -25,6 +23,7 @@ public interface BookProjection {
     String getCreatedBy();
     String getModifiedBy();
     Boolean getIsPrime();
+    int getIsPrimeValue();
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss.ss",timezone = "IST")
     LocalDateTime getCreatedDate();
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
@@ -32,5 +31,4 @@ public interface BookProjection {
     Boolean getIsDeleted();
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     LocalDateTime getDeletedDate();
-
 }
