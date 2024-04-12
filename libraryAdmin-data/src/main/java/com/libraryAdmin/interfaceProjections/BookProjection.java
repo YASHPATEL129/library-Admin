@@ -21,7 +21,7 @@ public interface BookProjection {
     String getFile();
     String getPublisher();
     String getAuthor();
-    Long getCategory();
+    String getCategoryName();
     String getCreatedBy();
     String getModifiedBy();
     Boolean getIsPrime();

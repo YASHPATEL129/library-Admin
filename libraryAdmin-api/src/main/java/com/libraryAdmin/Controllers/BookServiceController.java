@@ -1,14 +1,10 @@
 package com.libraryAdmin.Controllers;
 
 import com.libraryAdmin.consts.Message;
-import com.libraryAdmin.entity.Book;
-import com.libraryAdmin.entity.Category;
 import com.libraryAdmin.exception.ValidationException;
 import com.libraryAdmin.interfaceProjections.BookProjection;
 import com.libraryAdmin.model.params.BookUpdateParam;
 import com.libraryAdmin.model.params.UploadBookParam;
-import com.libraryAdmin.pojo.response.BookResponse;
-import com.libraryAdmin.pojo.response.BookUpdateResponse;
 import com.libraryAdmin.pojo.response.Success;
 import com.libraryAdmin.service.BookService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,7 +36,7 @@ public class BookServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(bookService.uploadBook(param));
-        success.setMessage(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.BOOK_UPLOAD_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -49,7 +45,7 @@ public class BookServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(bookService.getBook(id));
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.DATA_GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -58,7 +54,7 @@ public class BookServiceController {
         bookService.deleteBook(id);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.BOOK_DELETE_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -67,7 +63,7 @@ public class BookServiceController {
         bookService.restoreBook(id);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.BOOK_RESTORE_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -77,7 +73,7 @@ public class BookServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(books);
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.DATA_GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -86,7 +82,7 @@ public class BookServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(bookService.updateBook(id, response));
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.BOOK_DETAILS_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -98,7 +94,7 @@ public class BookServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(books);
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.DATA_GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -111,7 +107,7 @@ public class BookServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(books);
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.DATA_GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
 }

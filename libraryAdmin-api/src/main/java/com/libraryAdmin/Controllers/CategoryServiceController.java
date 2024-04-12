@@ -40,7 +40,7 @@ public class CategoryServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(data);
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.CATEGORY_CREATE_SUCCESSFUL);
         return respBuilder.body(success);
        }
 
@@ -50,7 +50,7 @@ public class CategoryServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(categories);
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.DATA_GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -59,7 +59,7 @@ public class CategoryServiceController {
         categoryService.deleteCategory(id);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.CATEGORY_DELETE_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -68,7 +68,17 @@ public class CategoryServiceController {
         categoryService.updateCategory(id, param);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.CATEGORY_UPDATE_SUCCESSFUL);
+        return respBuilder.body(success);
+    }
+
+    @GetMapping("/get/category/{id}")
+    public ResponseEntity<Success<?>> getCategories(@PathVariable Long id) {
+        Category category = categoryService.getCategory(id);
+        ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
+        Success<?> success = new Success<>();
+        success.setData(category);
+        success.setMessageCode(Message.DATA_GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
 }

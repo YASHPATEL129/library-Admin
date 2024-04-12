@@ -48,7 +48,7 @@ public class AttachmentServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(attachmentService.uploadFile(attachmentTypes, file, request, response));
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.PDF_UPLOAD_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -58,20 +58,12 @@ public class AttachmentServiceController {
                                                   @RequestParam("File") MultipartFile file) {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.PDF_UPDATE_SUCCESSFUL);
         success.setData(attachmentService.updateFile(newFilename, file));
         return respBuilder.body(success);
     }
 
-//    @GetMapping("/attachment/{newFilename}")
-//    public ResponseEntity<Success<?>> getPdfData(@PathVariable String newFilename) {
-//        InputStreamResource inputStreamResource = attachmentService.getPdfData(newFilename);
-//        ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
-//        Success<?> success = new Success<>();
-//        success.setMessageCode(Message.GET_SUCCESSFUL);
-//        success.setData(inputStreamResource);
-//        return respBuilder.body(success);
-//    }
+
 
 
     @GetMapping(value = "/attachment/{newFilename}")
@@ -79,7 +71,7 @@ public class AttachmentServiceController {
         attachmentService.getPdfData(newFilename, request,response);
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.DATA_GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
 

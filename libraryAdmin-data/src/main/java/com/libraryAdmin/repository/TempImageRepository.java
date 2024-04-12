@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TempImageRepository extends JpaRepository<TempImage, Long > {
 
+    TempImage findByOriginalImageNameAndCreatedBy(String originalImageName, String s);
 }

@@ -21,7 +21,7 @@ public class ValidationException extends RuntimeException{
         this.error = ErrorKeys.SERVER_ERROR;
     }
 
-    public ValidationException(String error, String messageCode){
+    public ValidationException(String messageCode, String error){
         this.messageCode = messageCode;
         this.error = error;
     }

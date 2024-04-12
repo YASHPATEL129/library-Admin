@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
         String categoryName = param.getCategoryName();
         boolean exist = categoryRepository.existsByCategoryName(categoryName);
         if (exist){
-            throw new ValidationException(Message.SERVER_ERROR , ErrorKeys.SERVER_ERROR);
+            throw new ValidationException( Message.CATEGORY_IS_ALREADY_EXIST,ErrorKeys.CATEGORY_IS_ALREADY_EXIST );
         }
         Category category = new Category();
         category.setCategoryName(param.getCategoryName());
@@ -112,5 +112,24 @@ public class CategoryServiceImpl implements CategoryService {
         } else {
             throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
         }
+    }
+
+    @Override
+    public Category getCategory(Long id) {
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        if (optionalCategory.isPresent()) {
+            Category existingCategory = optionalCategory.get();
+            Category category = new Category();
+            category.setId(id);
+            category.setCategoryName(existingCategory.getCategoryName());
+            category.setCreatedDate(existingCategory.getCreatedDate());
+            category.setCreatedBy(existingCategory.getCreatedBy());
+            category.setModifiedDate(existingCategory.getModifiedDate());
+            category.setModifiedBy(existingCategory.getModifiedBy());
+            return category;
+        }else {
+            throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
+        }
+
     }
 }

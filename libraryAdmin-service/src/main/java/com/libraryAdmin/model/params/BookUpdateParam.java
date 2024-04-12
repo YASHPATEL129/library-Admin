@@ -5,11 +5,11 @@ import lombok.Data;
 @Data
 public class BookUpdateParam {
 
-    private String title;
-    private String description;
-    private String isbn;
-    private String publisher;
-    private String author;
-    private String category;
-    private Integer pages;
+     String title;
+     String description;
+     String isbn;
+     String publisher;
+     String author;
+     Long category;
+     Integer pages;
 }

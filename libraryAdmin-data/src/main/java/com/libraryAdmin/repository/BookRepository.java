@@ -31,11 +31,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             " b.is_prime AS isPrime,"+
             "i.new_image_name AS cover, " +
             "a.new_filename AS file " +
-            "FROM Book b " +
+            "FROM (SELECT * FROM Book ORDER BY created_date DESC LIMIT 12) b " +
             "LEFT JOIN admin_image i ON b.book_id = i.bind_id " +
             "LEFT JOIN Attachment a ON b.book_id = a.bind_id " +
-            "ORDER BY b.book_id " +
-            "LIMIT 12")
+            "ORDER BY b.created_date DESC")
     List<BookProjection> findBookDetailsWithImageAndFile();
 
 
@@ -75,7 +74,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "b.isbn AS isbn, " +
             "b.publisher AS publisher," +
             "b.author AS author," +
-            " b.category AS category," +
+            "b.category AS category," +
+            "c.category_name AS categoryName," +
             " b.created_by AS createdBy," +
             " b.modified_by AS modifiedBy, " +
             "b.created_date AS createdDate," +
@@ -87,7 +87,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "a.new_filename AS file " +
             "FROM Book b " +
             "LEFT JOIN admin_image i ON b.book_id = i.bind_id " +
-            "LEFT JOIN Attachment a ON b.book_id = a.bind_id ")
+            "LEFT JOIN Attachment a ON b.book_id = a.bind_id "+
+            "LEFT JOIN Category c ON b.category = c.id")
     List<BookProjection> findAllBook();
 
 

@@ -20,5 +20,5 @@ public class CurrentSession {
     String lastName;
     String contact;
     Locale locale;
-
+    Boolean isSuperAdmin;
 }

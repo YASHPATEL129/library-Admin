@@ -26,14 +26,14 @@ public class Admin {
     private String email;
     private String password;
     private String contact;
-    private String designation = null;
-    private Boolean isActive = true;
+    private String designation;
+    private Boolean isActive;
 
     @CreationTimestamp
     private Instant createdTime;
     @UpdateTimestamp
     private String updatedTime;
-    private Boolean isSuperAdmin = false;
-    private Long createdBy = null;
+    private Boolean isSuperAdmin;
+    private Long createdBy;
 
 }

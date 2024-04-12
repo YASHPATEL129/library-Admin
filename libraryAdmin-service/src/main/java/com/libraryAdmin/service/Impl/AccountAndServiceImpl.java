@@ -15,6 +15,7 @@ import com.libraryAdmin.model.params.*;
 import com.libraryAdmin.pojo.CurrentSession;
 import com.libraryAdmin.pojo.response.AccountInfoResponse;
 import com.libraryAdmin.pojo.response.AuthResponse;
+import com.libraryAdmin.pojo.response.IsSuperAdminResponse;
 import com.libraryAdmin.repository.AdminRepository;
 import com.libraryAdmin.service.AccountAndService;
 import com.libraryAdmin.service.VerificationCodeService;
@@ -28,6 +29,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AccountAndServiceImpl implements AccountAndService {
@@ -43,7 +46,7 @@ public class AccountAndServiceImpl implements AccountAndService {
     AuthenticationManager authenticateManager;
 
     @Autowired
-    private CurrentSession currentSession;
+    CurrentSession currentSession;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -83,6 +86,7 @@ public class AccountAndServiceImpl implements AccountAndService {
         authResponse.setFirstName(admin.getFirstName());
         authResponse.setLastName(admin.getLastName());
         authResponse.setContact(admin.getContact());
+        authResponse.setIsSuperAdmin(admin.getIsSuperAdmin());
         configureSession(signInParam.getEmail(), authResponse.getDeviceToken(), request.getHeader(AppConfigs.DEVICE_TYPE_NAME));
         return authResponse;
     }
@@ -161,6 +165,8 @@ public class AccountAndServiceImpl implements AccountAndService {
 
     @Override
     public void superAdminChangePassword(SuperAdminResetPasswordParam param, HttpServletRequest request) {
+        if (!currentSession.getIsSuperAdmin())
+            throw new ForbiddenException(Message.UNAUTHORIZED,ErrorKeys.UNAUTHORIZED);
         Admin admin = adminRepository.findByEmail(currentSession.getEmail());
         if (admin == null) {
             throw new ForbiddenException(Message.INCORRECT_ACCOUNT_OR_PASSWORD , ErrorKeys.INCORRECT_ACCOUNT_OR_PASSWORD);
@@ -177,6 +183,21 @@ public class AccountAndServiceImpl implements AccountAndService {
         } catch (Exception e) {
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public List<Admin> getAdminList(Boolean isSuperAdmin, HttpServletRequest request, HttpServletResponse response) {
+        if (!currentSession.getIsSuperAdmin())
+            throw new ForbiddenException(Message.UNAUTHORIZED,ErrorKeys.UNAUTHORIZED);
+        return adminRepository.findByIsSuperAdmin(isSuperAdmin);
+    }
+
+    @Override
+    public IsSuperAdminResponse getIsSuperAdmin(HttpServletRequest request) {
+        Admin admin = adminRepository.findByEmail(currentSession.getEmail());
+        IsSuperAdminResponse isSuperAdminResponse = new IsSuperAdminResponse();
+        isSuperAdminResponse.setIsSuperAdmin(admin.getIsSuperAdmin());
+        return isSuperAdminResponse;
     }
 
     private void configureSession(String email , String deviceVerificationToken , String deviceType){

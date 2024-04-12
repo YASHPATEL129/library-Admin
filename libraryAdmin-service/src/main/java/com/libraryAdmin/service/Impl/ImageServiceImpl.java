@@ -131,7 +131,7 @@ public class ImageServiceImpl implements ImageService {
 
         try {
             String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            String updatedFileName = System.currentTimeMillis() + fileExtension;
+            String updatedFileName = SystemHelper.generateFileName() + fileExtension;
             Files.copy(file.getInputStream(), Path.of(UPLOAD_DIR + File.separator + updatedFileName), StandardCopyOption.REPLACE_EXISTING);
 
             // Remove the old file from the folder
@@ -148,7 +148,7 @@ public class ImageServiceImpl implements ImageService {
             adminImageRepository.save(adminImage);
 
             UploadImageResponse responseDTO = new UploadImageResponse();
-            responseDTO.setNewImageName(newImageName);
+            responseDTO.setNewImageName(updatedFileName);
             return responseDTO;
         }catch (Exception e){
             throw new RuntimeException(e);

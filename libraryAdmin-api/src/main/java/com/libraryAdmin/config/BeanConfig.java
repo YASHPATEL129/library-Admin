@@ -21,27 +21,9 @@ public class BeanConfig {
 
     @Bean("AUTH_EXCLUDED_URL_PATTERNS")
     public static List<String> excludedPaths() {
-        return Arrays.asList(
-                "/v1/signup",
+        return List.of(
                 "/v1/signIn",
-                "/v1/send-email-code",
-                "/v1/reset-password",
-                // delete
-                "/v1/upload-image",
-                "/v1/download/{newImageName}",
-                "/v1/updates-image/{newImageName}",
-                "v1/upload-file",
-                "/v1/updates-file/{newFilename}",
-                "/v1/all/category",
-                "/v1/book/{id}",
-                "/v1/isDeleted/{id}",
-                "/v1/restore/{id}",
-                "/v1/all/books",
-                "/v1/delete/category/{id}",
-                "/v1/attachment/{newFilename}",
-                "/v1/all/12/books",
-                "/v1/search/books",
-                "/v1/multiple/upload"
+                "/v1/download/{newImageName}"
         );
     }
 

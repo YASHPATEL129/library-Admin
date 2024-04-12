@@ -26,7 +26,7 @@ public class ImageServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
         success.setData(imageService.uploadImage(imageType, file, request, response));
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.IMAGE_UPLOAD_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
@@ -37,16 +37,16 @@ public class ImageServiceController {
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         imageService.downloadImage(newImageName, request, response);
         Success<?> success = new Success<>();
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.DATA_GET_SUCCESSFUL);
         return respBuilder.body(success);
     }
 
     @PutMapping("/updates-image/{newImageName}")
     public ResponseEntity<Success<?>> updateImage(@PathVariable String newImageName,
-                                                  @RequestParam("file") MultipartFile file) {
+                                                  @RequestParam("file") MultipartFile file) throws Exception{
         ResponseEntity.BodyBuilder respBuilder = ResponseEntity.ok();
         Success<?> success = new Success<>();
-        success.setMessageCode(Message.GET_SUCCESSFUL);
+        success.setMessageCode(Message.IMAGE_UPDATE_SUCCESSFUL);
         success.setData(imageService.updateImage(newImageName, file));
         return respBuilder.body(success);
     }

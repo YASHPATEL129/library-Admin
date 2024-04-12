@@ -52,6 +52,7 @@ public class RequestInterceptor implements HandlerInterceptor {
             currentSession.setFirstName(user.getFirstName());
             currentSession.setLastName(user.getLastName());
             currentSession.setContact(user.getContact());
+            currentSession.setIsSuperAdmin(user.getIsSuperAdmin());
         }
         currentSession.setLocale(request.getLocale());
         return true;

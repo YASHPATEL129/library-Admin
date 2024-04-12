@@ -17,7 +17,7 @@ public class UploadBookParam {
 
     private String author;
 
-    private String category;
+    private Long category;
 
     private String newImageName;
 

@@ -18,4 +18,6 @@ public interface CategoryService {
     void deleteCategory(Long id);
 
     void updateCategory(Long id, UpdateCategoryParam param);
+
+    Category getCategory(Long id);
 }

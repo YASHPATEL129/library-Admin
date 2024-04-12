@@ -15,4 +15,5 @@ public class AuthResponse {
     String firstName;
     String lastName;
     String contact;
+    Boolean isSuperAdmin;
 }

@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
         boolean isFileNameExists = existingAttachment != null;
 
         // Check if the category exists in the Category table
-        Category category = categoryRepository.findByCategoryName(param.getCategory());
+        Optional<Category> category = categoryRepository.findById(param.getCategory());
         boolean isCategoryExists = category != null;
 
         if (!isImageNameExists || !isFileNameExists || !isCategoryExists) {
@@ -76,7 +76,7 @@ public class BookServiceImpl implements BookService {
         book.setIsbn(param.getIsbn());
         book.setPublisher(param.getPublisher());
         book.setAuthor(param.getAuthor());
-        book.setCategory(category.getId()); // Set the category ID in the book entity
+        book.setCategory(param.getCategory()); // Set the category ID in the book entity
         book.setCreatedBy(currentSession.getUserName());
         book.setIsPrime(param.getIsPrime());
         // Save the book entity
@@ -98,7 +98,7 @@ public class BookServiceImpl implements BookService {
         response.setIsbn(book.getIsbn());
         response.setPublisher(book.getPublisher());
         response.setAuthor(book.getAuthor());
-        response.setCategory(category.getId());
+        response.setCategory(book.getCategory());
         response.setPages(book.getPages());
         response.setCreatedBy(book.getCreatedBy());
         response.setIsPrime(book.getIsPrime());
@@ -206,9 +206,9 @@ public class BookServiceImpl implements BookService {
                     book.setAuthor(param.getAuthor());
                 }
                 if (param.getCategory() != null) {
-                    Optional<Category> optionalCategory = Optional.ofNullable(categoryRepository.findByCategoryName(param.getCategory()));
-                    if (optionalCategory.isPresent()) {
-                        book.setCategory(optionalCategory.get().getId());
+                   Optional<Category> exitCategory = categoryRepository.findById(param.getCategory());
+                    if (exitCategory.isPresent()) {
+                        book.setCategory(param.getCategory());
                     } else {
                         // Handle if category name is not found
                         throw new NotFoundException(Message.NOT_FOUND, ErrorKeys.NOT_FOUND);
