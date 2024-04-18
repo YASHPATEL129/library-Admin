@@ -23,7 +23,13 @@ public class BeanConfig {
     public static List<String> excludedPaths() {
         return List.of(
                 "/v1/signIn",
-                "/v1/download/{newImageName}"
+                "/v1/download/{newImageName}",
+                "/v1/all/12/books",
+                "/v1/book/{id}",
+                "/v1/search/books",
+                "/v1/all/books",
+                "/v1/all/category",
+                "/v1/attachment/{newFilename}"
         );
     }
 

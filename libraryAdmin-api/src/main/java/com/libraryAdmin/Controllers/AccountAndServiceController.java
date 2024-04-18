@@ -4,7 +4,6 @@ import com.libraryAdmin.consts.AppConfigs;
 import com.libraryAdmin.consts.Message;
 import com.libraryAdmin.exception.ValidationException;
 import com.libraryAdmin.model.params.*;
-import com.libraryAdmin.pojo.CurrentSession;
 import com.libraryAdmin.pojo.response.Success;
 import com.libraryAdmin.service.AccountAndService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,8 +27,8 @@ public class AccountAndServiceController {
 
 
 
-    @PostMapping("/signup")
-    public ResponseEntity<Success<?>> signIn(@RequestBody @Validated SignUpParam signUpParam,
+        @PostMapping("/create/super/admin")
+    public ResponseEntity<Success<?>> createAdmin(@RequestBody @Validated CreateAdminParam createAdminParam,
                                              BindingResult error,
                                              HttpServletRequest request,
                                              HttpServletResponse response) {
@@ -38,9 +37,9 @@ public class AccountAndServiceController {
             throw new ValidationException(error);
         }
 
-        accountAndService.signUp(signUpParam, request, response);
+        accountAndService.signUp(createAdminParam, request, response);
         Success<?> success = new Success<>();
-        success.setMessageCode(Message.SIGN_UP_SUCCESS);
+        success.setMessageCode(Message.CREATE_SUCCESSFUL);
 
         ResponseEntity<Success<?>> responseEntity = new ResponseEntity<>(success, HttpStatus.CREATED);
         return responseEntity;

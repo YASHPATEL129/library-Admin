@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface AccountAndService {
 
-    void signUp(SignUpParam signUpParam , HttpServletRequest request ,HttpServletResponse response);
+    void signUp(CreateAdminParam createAdminParam, HttpServletRequest request , HttpServletResponse response);
 
     AuthResponse signIn(SignInParam signInParam, HttpServletRequest request , HttpServletResponse response);
 

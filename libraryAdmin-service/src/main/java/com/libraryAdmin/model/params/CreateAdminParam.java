@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpParam {
+public class CreateAdminParam {
 
     @NotBlank
     private String firstName;
@@ -28,4 +28,6 @@ public class SignUpParam {
 
     @NotBlank
     private String contact;
+
+    private Boolean isSuperAdmin;
 }

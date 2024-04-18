@@ -80,4 +80,6 @@ public interface Message {
     String CATEGORY_CREATE_SUCCESSFUL = "category.create.success";
 
     String CATEGORY_UPDATE_SUCCESSFUL = "category.update.success";
+
+    String CREATE_SUCCESSFUL = "create.success";
 }

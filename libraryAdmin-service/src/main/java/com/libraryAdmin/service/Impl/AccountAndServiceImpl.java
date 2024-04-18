@@ -58,14 +58,15 @@ public class AccountAndServiceImpl implements AccountAndService {
     private VerificationCodeService verificationCodeService;
 
     @Override
-    public void signUp(SignUpParam signUpParam, HttpServletRequest request, HttpServletResponse response) {
+    public void signUp(CreateAdminParam createAdminParam, HttpServletRequest request, HttpServletResponse response) {
 
         Admin admin = new Admin();
-        admin.setFirstName(signUpParam.getFirstName());
-        admin.setLastName(signUpParam.getLastName());
-        admin.setEmail(signUpParam.getEmail());
-        admin.setContact(signUpParam.getContact());
-        admin.setPassword(passwordEncoder.encode(signUpParam.getPassword()));
+        admin.setFirstName(createAdminParam.getFirstName());
+        admin.setLastName(createAdminParam.getLastName());
+        admin.setEmail(createAdminParam.getEmail());
+        admin.setContact(createAdminParam.getContact());
+        admin.setPassword(passwordEncoder.encode(createAdminParam.getPassword()));
+        admin.setIsSuperAdmin(createAdminParam.getIsSuperAdmin());
         admin.setCreatedBy(currentSession.getId());
         String userName = SystemHelper.generateUsername();
         admin.setUserName(userName);
